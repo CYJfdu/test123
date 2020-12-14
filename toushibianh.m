@@ -1,7 +1,7 @@
-
+clear;
 clc;
 
-img= imread('rmb.jpg');
+img= imread('rmb4.jpg');
 img= rgb2gray(img);
 imshow(mat2gray(img));
 [M, N] = size(img);
@@ -47,8 +47,18 @@ height=round(max([pix1(1) pix2(1) pix3(1) pix4(1)])-min([pix1(1) pix2(1) pix3(1)
 width=round(max([pix1(2) pix2(2) pix3(2) pix4(2)])-min([pix1(2) pix2(2) pix3(2) pix4(2)]));      %变换后图像的宽度
 imgn=zeros(height,width);
 
-delta_y=round(abs(min([pix1(1) pix2(1) pix3(1) pix4(1)])));            %取得y方向的负轴超出的偏移量
-delta_x=round(abs(min([pix1(2) pix2(2) pix3(2) pix4(2)])));            %取得x方向的负轴超出的偏移量
+% delta_y=round(abs(min([pix1(1) pix2(1) pix3(1) pix4(1)])));            %取得y方向的负轴超出的偏移量
+% delta_x=round(abs(min([pix1(2) pix2(2) pix3(2) pix4(2)])));            %取得x方向的负轴超出的偏移量
+if min([pix1(1) pix2(1) pix3(1) pix4(1)]) >= 0
+    delta_y = -round(abs(min([pix1(1) pix2(1) pix3(1) pix4(1)])));
+else
+    delta_y = round(abs(min([pix1(1) pix2(1) pix3(1) pix4(1)])));            %取得y方向的负轴超出的偏移量
+end
+if min([pix1(2) pix2(2) pix3(2) pix4(2)]) >= 0
+    delta_x = -round(abs(min([pix1(2) pix2(2) pix3(2) pix4(2)])));
+else
+    delta_x = round(abs(min([pix1(2) pix2(2) pix3(2) pix4(2)])));            %取得x方向的负轴超出的偏移量
+end
 inv_rot=inv(rot);
 
 for i = 1-delta_y:height-delta_y                        %从变换图像中反向寻找原图像的点，以免出现空洞，和旋转放大原理一样
